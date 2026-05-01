@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\UserInformationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ApiProductController;
 
 
 
@@ -12,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+
+Route::get('/get-category', [ApiProductController::class, 'getCategory']);
+Route::get('/get-product', [ApiProductController::class, 'getProduct']);
 
 
 
