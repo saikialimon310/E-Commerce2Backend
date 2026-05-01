@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\UserInformationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ApiProductController;
 
 Route::post('/test', function () {
     return response()->json(["ok" => true]);
@@ -14,6 +15,9 @@ Route::post('/test', function () {
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+
+Route::get('/get-category', [ApiProductController::class, 'getCategory']);
+Route::get('/get-product', [ApiProductController::class, 'getProduct']);
 
 
 
