@@ -20,8 +20,12 @@
 
                     <div class="card-body">
 
-                        <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
+                        <!-- ✅ MAIN UPDATE FORM -->
+                        <form action="{{ route('products.update', $product->id) }}" 
+                              method="POST" 
+                              enctype="multipart/form-data">
                             @csrf
+                            @method('PUT') <!-- ✅ FIXED -->
 
                             <div class="row">
 
@@ -47,13 +51,30 @@
                                            class="form-control" required>
                                 </div>
 
-                                <!-- Image -->
-                                <div class="col-md-6 mb-3">
-                                    <label>Product Image</label>
-                                    <input type="file" name="image" class="form-control">
+                                <!-- EXISTING IMAGES -->
+                                <div class="col-md-12 mb-3">
+                                    <label>Existing Images</label><br>
 
-                                    <br>
-                                    <img src="{{ asset('storage/'.$product->image) }}" width="80">
+                                    @foreach($product->images as $img)
+                                        <div style="display:inline-block; margin:10px; text-align:center;">
+
+                                            <img src="{{ asset('storage/'.$img->image) }}" width="80">
+
+                                            <!-- ✅ DELETE BUTTON (NO FORM INSIDE MAIN FORM) -->
+                                            <button type="button"
+                                                    class="btn btn-danger btn-sm"
+                                                    onclick="deleteImage({{ $img->id }})">
+                                                Delete
+                                            </button>
+
+                                        </div>
+                                    @endforeach
+                                </div>
+
+                                <!-- Add New Images -->
+                                <div class="col-md-12 mb-3">
+                                    <label>Add New Images</label>
+                                    <input type="file" name="images[]" class="form-control" multiple>
                                 </div>
 
                                 <!-- Price -->
@@ -89,6 +110,12 @@
 
                         </form>
 
+                        <!-- ✅ SEPARATE DELETE FORM -->
+                        <form id="delete-image-form" method="POST" style="display:none;">
+                            @csrf
+                            @method('DELETE')
+                        </form>
+
                     </div>
 
                 </div>
@@ -97,5 +124,16 @@
         </div>
     </div>
 </div>
+
+<!-- ✅ JS FOR DELETE -->
+<script>
+function deleteImage(id) {
+    if(confirm('Delete this image?')) {
+        let form = document.getElementById('delete-image-form');
+        form.action = "{{ url('product-image') }}/" + id;
+        form.submit();
+    }
+}
+</script>
 
 @endsection

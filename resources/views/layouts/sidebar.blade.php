@@ -89,28 +89,29 @@
           </div>
         </li>
 
+      
         <!-- Availabilities -->
-        {{-- <li class="nav-item">
+        <li class="nav-item">
           <a data-bs-toggle="collapse" href="#availabilityMenu">
             <i class="fas fa-pen-square"></i>
-            <p>Availabilities</p>
+            <p>AvailableProduct</p>
             <span class="caret"></span>
           </a>
           <div class="collapse" id="availabilityMenu">
             <ul class="nav nav-collapse">
               <li>
-                <a href="{{ route('availabilities.index') }}">
+                <a href="{{ route('available-products.index') }}">
                   <span class="sub-item">All Availabilities</span>
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a href="{{ route('available-products.create') }}">
                   <span class="sub-item">Add Availability</span>
                 </a>
               </li>
             </ul>
           </div>
-        </li> --}}
+        </li>
 
         <!-- Users -->
         {{-- <li class="nav-item">

@@ -8,8 +8,24 @@
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('assets/img/kaiadmin/favicon.ico') }}" type="image/x-icon"/>
 
-    <!-- Fonts -->
-    <script src="{{ asset('assets/js/plugin/webfont/webfont.min.js') }}"></script>
+    
+
+    <style>
+    html, body {
+        height: auto !important;
+        overflow: auto !important;
+    }
+
+    .wrapper {
+        overflow: visible !important;
+    }
+
+    .main-panel {
+        height: auto !important;
+        max-height: none !important;
+        overflow-y: auto !important;
+    }
+    </style>
     <script>
         WebFont.load({
             google: { families: ["Public Sans:300,400,500,600,700"] },
@@ -40,7 +56,8 @@
 
     @include('layouts.sidebar')
 
-    <div class="main-panel d-flex flex-column" style="min-height:100vh;">
+    <div class="main-panel d-flex flex-column" 
+        style="min-height:100vh; overflow-y:auto; max-height:100vh;">
         <div class="main-header">
 
             {{-- <div class="logo-header" data-background-color="dark">
@@ -54,7 +71,15 @@
 
                     <ul class="navbar-nav ms-auto align-items-center">
 
-                        <!-- Profile -->
+                        <!-- ✅ NEW CART MENU (ADDED BEFORE PROFILE) -->
+                        <li class="nav-item">
+                            <a href="{{ route('carts.index') }}" class="nav-link">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span class="ms-1">Carts</span>
+                            </a>
+                        </li>
+
+                        <!-- EXISTING PROFILE (UNCHANGED) -->
                         <li class="nav-item dropdown">
                             <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown">
                                 <div class="avatar-sm">
@@ -72,8 +97,8 @@
                                     <a class="dropdown-item" href="#">Settings</a>
 
                                     <a class="dropdown-item"
-                                       href="#"
-                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    href="#"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         Logout
                                     </a>
 
