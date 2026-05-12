@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\AvailableProductController;
 use App\Http\Controllers\MyCartController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -39,10 +40,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/available-products/create', [AvailableProductController::class, 'create'])->name('available-products.create');
     Route::post('/available-products/store', [AvailableProductController::class, 'store'])->name('available-products.store');
     Route::get('/available-products/edit/{id}', [AvailableProductController::class, 'edit'])->name('available-products.edit');
-    Route::post('/available-products/update/{id}', [AvailableProductController::class, 'update'])->name('available-products.update');
+    Route::put('/available-products/update/{id}', [AvailableProductController::class, 'update'])->name('available-products.update');
     Route::post('/available-products/delete/{id}', [AvailableProductController::class, 'destroy'])->name('available-products.delete');
     Route::put('/available-products/status/{id}', [AvailableProductController::class, 'updateStatus'])->name('available-products.status.update');
 
 
     Route::get('/carts', [MyCartController::class, 'index'])->name('carts.index');
+
+    
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::put('/users/status/{id}', [UserController::class, 'updateStatus'])->name('users.status');
+    Route::put('/users/role/{id}', [UserController::class, 'updateRole'])->name('users.role');
+    
 });

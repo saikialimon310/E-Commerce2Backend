@@ -53,7 +53,7 @@
                             <input type="number" name="available_quantity" class="form-control" required>
                         </div>
 
-                        <!-- Booked Quantity -->
+                        {{-- <!-- Booked Quantity -->
                         <div class="form-group mb-3">
                             <label>Booked Quantity</label>
                             <input type="number" name="booked_quantity" class="form-control" value="0">
@@ -63,7 +63,7 @@
                         <div class="form-group mb-3">
                             <label>Sold Quantity</label>
                             <input type="number" name="total_sell_quantity" class="form-control" value="0">
-                        </div>
+                        </div> --}}
 
                         <div class="mt-3">
                             <button type="submit" class="btn btn-success">
