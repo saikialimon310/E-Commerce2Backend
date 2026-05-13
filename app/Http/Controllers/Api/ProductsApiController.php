@@ -1,35 +1,30 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\Product;
-use App\Models\Category;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class ProductsController extends Controller
+class ProductsApiController extends Controller
 {
-    // ✅ SHOW ALL PRODUCTS
+    // GET ALL PRODUCTS
     public function index()
     {
         $products = Product::with(['images', 'category'])->get();
-        return view('products.index', compact('products'));
+
+        return response()->json([
+            'success' => true,
+            'products' => $products
+        ], 200);
     }
 
-    // ✅ CREATE PAGE
-    public function create()
-    {
-
-        $categories = Category::all();
-        return view('products.create', compact('categories'));
-    }
-
-    // ✅ STORE PRODUCT
+    // STORE PRODUCT
     public function store(Request $request)
     {
         $data = $request->validate([
-
             'category_id'   => 'required',
             'product_name'  => 'required',
             'price'         => 'required',
@@ -37,62 +32,14 @@ class ProductsController extends Controller
             'avail_count'   => 'required'
         ]);
 
-        // not used but required column fix
-       $data['user_id'] = auth()->id();
         $data['image'] = 'NA';
         $data['booked_count'] = 0;
         $data['status'] = 'hold';
 
         $product = Product::create($data);
 
-        // ✅ MULTIPLE IMAGE UPLOAD
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $img) {
-                $path = $img->store('products', 'public');
-
-                ProductImage::create([
-                    'product_id' => $product->id,
-                    'image'      => $path
-                ]);
-            }
-        }
-
-        return redirect()->route('products.index')
-            ->with('success', 'Product created successfully');
-    }
-
-    // ✅ EDIT PAGE
-    public function edit($id)
-    {
-        $product = Product::with('images')->findOrFail($id);
-        $categories = Category::all();
-
-        return view('products.edit', compact('product', 'categories'));
-    }
-
-    // ✅ UPDATE PRODUCT + REPLACE IMAGES
-    public function update(Request $request, $id)
-    {
-
-        $product = Product::findOrFail($id);
-
-        $data = $request->validate([
-
-            'category_id' => 'required',
-            'product_name' => 'required',
-            'price' => 'required',
-            'discount' => 'required',
-            'avail_count' => 'required'
-        ]);
-        $data['user_id'] = auth()->id();
-
-        // ✅ UPDATE PRODUCT DATA ONLY
-        $product->update($data);
-
-        // ✅ ADD NEW IMAGES (DO NOT DELETE OLD ONES)
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $img) {
-
                 $path = $img->store('products', 'public');
 
                 ProductImage::create([
@@ -102,11 +49,58 @@ class ProductsController extends Controller
             }
         }
 
-        return redirect()->route('products.index')
-            ->with('success', 'Product updated successfully');
+        return response()->json([
+            'success' => true,
+            'message' => 'Product created successfully',
+            'product' => $product->load('images')
+        ], 201);
     }
 
-    // ✅ DELETE SINGLE IMAGE (button use)
+    // SHOW SINGLE PRODUCT
+    public function show($id)
+    {
+        $product = Product::with(['images', 'category'])->findOrFail($id);
+
+        return response()->json([
+            'success' => true,
+            'product' => $product
+        ], 200);
+    }
+
+    // UPDATE PRODUCT
+    public function update(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+
+        $data = $request->validate([
+            'category_id' => 'required',
+            'product_name' => 'required',
+            'price' => 'required',
+            'discount' => 'required',
+            'avail_count' => 'required'
+        ]);
+
+        $product->update($data);
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $img) {
+                $path = $img->store('products', 'public');
+
+                ProductImage::create([
+                    'product_id' => $product->id,
+                    'image' => $path
+                ]);
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Product updated successfully',
+            'product' => $product->load('images')
+        ], 200);
+    }
+
+    // DELETE IMAGE
     public function deleteImage($id)
     {
         $image = ProductImage::findOrFail($id);
@@ -114,10 +108,13 @@ class ProductsController extends Controller
         Storage::disk('public')->delete($image->image);
         $image->delete();
 
-        return back()->with('success', 'Image deleted');
+        return response()->json([
+            'success' => true,
+            'message' => 'Image deleted successfully'
+        ], 200);
     }
 
-    // ✅ UPDATE STATUS
+    // UPDATE STATUS
     public function updateStatus(Request $request, $id)
     {
         $product = Product::findOrFail($id);
@@ -129,15 +126,17 @@ class ProductsController extends Controller
         $product->status = $request->status;
         $product->save();
 
-        return back()->with('success', 'Status updated successfully');
+        return response()->json([
+            'success' => true,
+            'message' => 'Status updated successfully'
+        ], 200);
     }
 
-    // ✅ DELETE PRODUCT (WITH IMAGES)
+    // DELETE PRODUCT
     public function destroy($id)
     {
         $product = Product::with('images')->findOrFail($id);
 
-        // 🔥 delete images first
         foreach ($product->images as $img) {
             Storage::disk('public')->delete($img->image);
             $img->delete();
@@ -145,7 +144,9 @@ class ProductsController extends Controller
 
         $product->delete();
 
-        return redirect()->route('products.index')
-            ->with('success', 'Product deleted successfully');
+        return response()->json([
+            'success' => true,
+            'message' => 'Product deleted successfully'
+        ], 200);
     }
 }
