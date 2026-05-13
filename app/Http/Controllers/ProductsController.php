@@ -13,7 +13,9 @@ class ProductsController extends Controller
     // ✅ SHOW ALL PRODUCTS
     public function index()
     {
-        $products = Product::with(['images', 'category'])->get();
+        $products = Product::with(['images', 'category'])
+            ->where('user_id', auth()->id())
+            ->get();
         return view('products.index', compact('products'));
     }
 
@@ -39,7 +41,7 @@ class ProductsController extends Controller
         $data['image'] = 'NA';
         $data['booked_count'] = 0;
         $data['status'] = 'hold';
-
+        $data['user_id'] = auth()->id();
         $product = Product::create($data);
 
         // ✅ MULTIPLE IMAGE UPLOAD
@@ -114,7 +116,8 @@ class ProductsController extends Controller
     // ✅ UPDATE STATUS
     public function updateStatus(Request $request, $id)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::where('user_id', auth()->id())
+                  ->findOrFail($id);
 
         $request->validate([
             'status' => 'required|in:approved,reject,hold'

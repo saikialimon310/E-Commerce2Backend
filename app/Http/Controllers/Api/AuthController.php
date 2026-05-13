@@ -13,23 +13,27 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        // dd($request->all());
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
-            'user_type' => 'required|in:user,seller'
         ]);
+
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'user_type' => $request->user_type,
+
+            'role' => 'seller',
+            'status' => 'active',
         ]);
+
         $token = $user->createToken('auth_token')->plainTextToken;
+
         return response()->json([
             'message' => 'User registered successfully',
             'user' => $user,

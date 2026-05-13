@@ -44,27 +44,35 @@
         </li>
 
         <!-- Categories -->
+        @if(auth()->user()->user_type == 'Admin')
+
         <li class="nav-item">
           <a data-bs-toggle="collapse" href="#categoriesMenu">
             <i class="fas fa-layer-group"></i>
             <p>Categories</p>
             <span class="caret"></span>
           </a>
+
           <div class="collapse" id="categoriesMenu">
             <ul class="nav nav-collapse">
+
               <li>
                 <a href="{{ route('categories.index') }}">
                   <span class="sub-item">All Categories</span>
                 </a>
               </li>
+
               <li>
                 <a href="{{ route('categories.create') }}">
                   <span class="sub-item">Add Category</span>
                 </a>
               </li>
+
             </ul>
           </div>
         </li>
+
+        @endif
 
         <!-- Products -->
         <li class="nav-item">
@@ -115,6 +123,8 @@
 
         <!-- Users -->
         <!-- Users -->
+
+        @if(auth()->user()->user_type == 'Admin')
         <li class="nav-item">
           <a data-bs-toggle="collapse" href="#usersMenu">
             <i class="fas fa-users"></i>
@@ -138,6 +148,7 @@
 
           </div>
         </li>
+        @endif
 
       </ul>
     </div>
