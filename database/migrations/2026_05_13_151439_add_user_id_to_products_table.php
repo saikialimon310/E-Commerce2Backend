@@ -6,21 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up(): void
-    {
-        Schema::table('products', function (Blueprint $table) {
+    // public function up(): void
+    // {
+    //     // Schema::table('products', function (Blueprint $table) {
 
-            $table->unsignedBigInteger('user_id')->nullable();
+    //     //     $table->unsignedBigInteger('user_id')->nullable();
 
-        });
-    }
+    //     // });
+    // }
 
-    public function down(): void
-    {
-        Schema::table('products', function (Blueprint $table) {
+    // public function down(): void
+    // {
+    //     Schema::table('products', function (Blueprint $table) {
 
-            $table->dropColumn('user_id');
+    //         $table->dropColumn('user_id');
 
-        });
-    }
+    //     });
+    // }
 };
