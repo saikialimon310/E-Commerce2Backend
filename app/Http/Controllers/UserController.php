@@ -21,7 +21,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         $user->update([
-            'role' => $request->role
+            '	user_type' => $request->	user_type
         ]);
 
         return back()->with('success', 'Role updated successfully');

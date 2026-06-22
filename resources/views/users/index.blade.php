@@ -43,17 +43,17 @@
                                 @csrf
                                 @method('PUT')
 
-                                <select name="role"
+                                <select name="	user_type"
                                         onchange="this.form.submit()"
                                         class="form-control">
 
                                     <option value="buyer"
-                                        {{ $user->role == 'buyer' ? 'selected' : '' }}>
+                                        {{ $user->user_type == 'buyer' ? 'selected' : '' }}>
                                         Buyer
                                     </option>
 
                                     <option value="seller"
-                                        {{ $user->role == 'seller' ? 'selected' : '' }}>
+                                        {{ $user->user_type == 'seller' ? 'selected' : '' }}>
                                         Seller
                                     </option>
 
@@ -95,7 +95,7 @@
                         <!-- HISTORY -->
                         <td>
 
-                            @if($user->role == 'buyer')
+                            @if($user->user_type == 'buyer')
 
                                 Purchase History
 

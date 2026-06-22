@@ -89,7 +89,7 @@
           </div>
         </li>
 
-      
+
         <!-- Availabilities -->
         <li class="nav-item">
           <a data-bs-toggle="collapse" href="#availabilityMenu">
@@ -109,6 +109,28 @@
                   <span class="sub-item">Add Availability</span>
                 </a>
               </li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <a data-bs-toggle="collapse" href="#ordersMenu">
+            <i class="fas fa-box"></i>
+            <p>Orders</p>
+            <span class="caret"></span>
+          </a>
+          <div class="collapse" id="ordersMenu">
+            <ul class="nav nav-collapse">
+              <li>
+                <a href="{{ route('orders.index') }}">
+                  <span class="sub-item">All Orders</span>
+                </a>
+              </li>
+              {{-- <li>
+                <a href="{{ route('orders.create') }}">
+                  <span class="sub-item">Add Order</span>
+                </a>
+              </li> --}}
             </ul>
           </div>
         </li>
