@@ -35,7 +35,7 @@
                         </div>
 
                         <!-- User Dropdown -->
-                        <div class="form-group mb-3">
+                        {{-- <div class="form-group mb-3">
                             <label>User</label>
                             <select name="user_id" class="form-control" required>
                                 <option value="">-- Select User --</option>
@@ -45,7 +45,7 @@
                                     </option>
                                 @endforeach
                             </select>
-                        </div>
+                        </div> --}}
 
                         <!-- Available Quantity -->
                         <div class="form-group mb-3">
