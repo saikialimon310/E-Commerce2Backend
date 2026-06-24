@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use App\Models\Product;
 use App\Models\ProductImage;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +14,6 @@ class ProductStoreApiController extends Controller
 {
     public function store(Request $request)
     {
-        // dd('hear');
         // ✅ VALIDATION (MATCH FLUTTER)
         $request->validate([
 
@@ -40,8 +40,14 @@ class ProductStoreApiController extends Controller
         ]);
 
         // ✅ STORE MULTIPLE IMAGES
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $img) {
+        $images = $request->file('images', []);
+
+        if (is_array($images)) {
+            foreach ($images as $img) {
+                if (! $img instanceof UploadedFile || ! $img->isValid()) {
+                    continue;
+                }
+
                 $path = $this->storeCompressedImage($img, 'products', 100);
 
                 ProductImage::create([
@@ -49,6 +55,13 @@ class ProductStoreApiController extends Controller
                     'image' => $path
                 ]);
             }
+        } elseif ($images instanceof UploadedFile && $images->isValid()) {
+            $path = $this->storeCompressedImage($images, 'products', 100);
+
+            ProductImage::create([
+                'product_id' => $product->id,
+                'image' => $path
+            ]);
         }
 
         return response()->json([

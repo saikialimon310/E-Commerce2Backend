@@ -14,13 +14,22 @@ class Controller extends BaseController
 
     protected function storeCompressedImage(UploadedFile $file, string $directory = 'products', int $targetKb = 100): string
     {
+        if (! $file->isValid()) {
+            return $this->storeRawFile($file, $directory);
+        }
+
         $extension = strtolower($file->getClientOriginalExtension());
         $filename = uniqid('img_', true) . '.' . $extension;
         $storagePath = trim($directory, '/') . '/' . $filename;
 
-        $image = $this->createImageResource($file->path());
+        $imagePath = $file->getRealPath() ?: $file->getPathname();
+        if (! $imagePath || ! is_file($imagePath)) {
+            return $this->storeRawFile($file, $directory);
+        }
+
+        $image = $this->createImageResource($imagePath);
         if (! $image) {
-            return $file->storeAs($directory, $filename, 'public');
+            return $this->storeRawFile($file, $directory);
         }
 
         $image = $this->resizeImageResource($image, 1200, 1200);
@@ -33,6 +42,11 @@ class Controller extends BaseController
 
         Storage::disk('public')->put($storagePath, $contents);
         return $storagePath;
+    }
+
+    protected function storeRawFile(UploadedFile $file, string $directory = 'products'): string
+    {
+        return $file->store($directory, 'public');
     }
 
     protected function createImageResource(string $path)

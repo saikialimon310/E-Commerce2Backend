@@ -23,41 +23,68 @@
                         <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
 
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul class="mb-0">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
                             <div class="row">
 
                                 <!-- Category -->
                                 <div class="col-md-6 mb-3">
                                     <label>Category</label>
-                                    <select name="category_id" class="form-control" required>
+                                    <select name="category_id" class="form-control @error('category_id') is-invalid @enderror" required>
                                         <option value="">Select Category</option>
                                         @foreach($categories as $cat)
-                                            <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                                            <option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected' : '' }}>
+                                                {{ $cat->name }}
+                                            </option>
                                         @endforeach
                                     </select>
+                                    @error('category_id')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
 
                                 <!-- Product Name -->
                                 <div class="col-md-6 mb-3">
                                     <label>Product Name</label>
-                                    <input type="text" name="product_name" class="form-control" required>
+                                    <input type="text" name="product_name" value="{{ old('product_name') }}" class="form-control @error('product_name') is-invalid @enderror" required>
+                                    @error('product_name')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
 
                                 <!-- Price -->
                                 <div class="col-md-6 mb-3">
                                     <label>Price</label>
-                                    <input type="number" name="price" class="form-control" required>
+                                    <input type="number" name="price" value="{{ old('price') }}" class="form-control @error('price') is-invalid @enderror" required>
+                                    @error('price')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
 
                                 <!-- Discount -->
                                 <div class="col-md-6 mb-3">
                                     <label>Discount</label>
-                                    <input type="number" name="discount" class="form-control" required>
+                                    <input type="number" name="discount" value="{{ old('discount') }}" class="form-control @error('discount') is-invalid @enderror" required>
+                                    @error('discount')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
 
                                 <!-- Available Count -->
                                 <div class="col-md-6 mb-3">
                                     <label>Available Count</label>
-                                    <input type="number" name="avail_count" class="form-control" required>
+                                    <input type="number" name="avail_count" value="{{ old('avail_count') }}" class="form-control @error('avail_count') is-invalid @enderror" required>
+                                    @error('avail_count')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
 
                                 <!-- ✅ IMAGE SECTION -->

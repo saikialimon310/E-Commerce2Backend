@@ -25,18 +25,28 @@
 @csrf
 @method('PUT')
 
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul class="mb-0">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
 <div class="row">
 
 <!-- CATEGORY -->
 <div class="col-md-6 mb-3">
     <label>Category</label>
 
-    <select name="category_id" class="form-control">
+    <select name="category_id" class="form-control @error('category_id') is-invalid @enderror">
 
         @foreach($categories as $cat)
 
             <option value="{{ $cat->id }}"
-                {{ $product->category_id == $cat->id ? 'selected' : '' }}>
+                {{ old('category_id', $product->category_id) == $cat->id ? 'selected' : '' }}>
 
                 {{ $cat->name }}
 
@@ -45,6 +55,9 @@
         @endforeach
 
     </select>
+    @error('category_id')
+        <span class="text-danger">{{ $message }}</span>
+    @enderror
 </div>
 
 <!-- PRODUCT NAME -->
@@ -53,8 +66,11 @@
 
     <input type="text"
            name="product_name"
-           value="{{ $product->product_name }}"
-           class="form-control">
+           value="{{ old('product_name', $product->product_name) }}"
+           class="form-control @error('product_name') is-invalid @enderror">
+    @error('product_name')
+        <span class="text-danger">{{ $message }}</span>
+    @enderror
 </div>
 
 <!-- PRICE -->
@@ -63,8 +79,11 @@
 
     <input type="text"
            name="price"
-           value="{{ $product->price }}"
-           class="form-control">
+           value="{{ old('price', $product->price) }}"
+           class="form-control @error('price') is-invalid @enderror">
+    @error('price')
+        <span class="text-danger">{{ $message }}</span>
+    @enderror
 </div>
 
 <!-- DISCOUNT -->
@@ -73,8 +92,11 @@
 
     <input type="text"
            name="discount"
-           value="{{ $product->discount }}"
-           class="form-control">
+           value="{{ old('discount', $product->discount) }}"
+           class="form-control @error('discount') is-invalid @enderror">
+    @error('discount')
+        <span class="text-danger">{{ $message }}</span>
+    @enderror
 </div>
 
 <!-- AVAILABLE COUNT -->
@@ -83,8 +105,11 @@
 
     <input type="text"
            name="avail_count"
-           value="{{ $product->avail_count }}"
-           class="form-control">
+           value="{{ old('avail_count', $product->avail_count) }}"
+           class="form-control @error('avail_count') is-invalid @enderror">
+    @error('avail_count')
+        <span class="text-danger">{{ $message }}</span>
+    @enderror
 </div>
 
 <!-- EXISTING IMAGES -->
