@@ -72,12 +72,12 @@
                     <ul class="navbar-nav ms-auto align-items-center">
 
                         <!-- ✅ NEW CART MENU (ADDED BEFORE PROFILE) -->
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a href="{{ route('carts.index') }}" class="nav-link">
                                 <i class="fas fa-shopping-cart"></i>
                                 <span class="ms-1">Carts</span>
                             </a>
-                        </li>
+                        </li> --}}
 
                         <!-- EXISTING PROFILE (UNCHANGED) -->
                         <li class="nav-item dropdown">
@@ -87,7 +87,7 @@
                                 </div>
                                 <span class="profile-username">
                                     <span class="op-7">Hi,</span>
-                                    <span class="fw-bold">Hizrian</span>
+                                    <span class="fw-bold">Name</span>
                                 </span>
                             </a>
 
