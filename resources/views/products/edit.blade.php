@@ -260,7 +260,7 @@ function deleteImage(id)
     {
         let form = document.getElementById('delete-form');
 
-        form.action = '/product-image/' + id;
+        form.action = '{{ url('product-image') }}/' + id;
 
         form.submit();
     }

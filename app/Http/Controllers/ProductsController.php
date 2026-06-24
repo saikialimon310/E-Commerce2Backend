@@ -171,8 +171,7 @@ class ProductsController extends Controller
     {
         $image = ProductImage::findOrFail($id);
 
-        Storage::disk('public')->delete($image->image);
-        $image->delete();
+        $this->deleteProductImage($image);
 
         return back()->with('success', 'Image deleted');
     }
@@ -247,14 +246,20 @@ class ProductsController extends Controller
 
         return $bytes . ' bytes';
     }
+
+    protected function deleteProductImage(ProductImage $image): void
+    {
+        Storage::disk('public')->delete($image->image);
+        $image->delete();
+    }
+
     public function destroy($id)
     {
         $product = Product::with('images')->findOrFail($id);
 
         // 🔥 delete images first
         foreach ($product->images as $img) {
-            Storage::disk('public')->delete($img->image);
-            $img->delete();
+            $this->deleteProductImage($img);
         }
 
         $product->delete();

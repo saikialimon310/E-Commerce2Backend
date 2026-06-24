@@ -109,8 +109,7 @@ class ProductsApiController extends Controller
     {
         $image = ProductImage::findOrFail($id);
 
-        Storage::disk('public')->delete($image->image);
-        $image->delete();
+        $this->deleteProductImage($image);
 
         return response()->json([
             'success' => true,
@@ -142,8 +141,7 @@ class ProductsApiController extends Controller
         $product = Product::with('images')->findOrFail($id);
 
         foreach ($product->images as $img) {
-            Storage::disk('public')->delete($img->image);
-            $img->delete();
+            $this->deleteProductImage($img);
         }
 
         $product->delete();
@@ -152,5 +150,11 @@ class ProductsApiController extends Controller
             'success' => true,
             'message' => 'Product deleted successfully'
         ], 200);
+    }
+
+    protected function deleteProductImage(ProductImage $image): void
+    {
+        Storage::disk('public')->delete($image->image);
+        $image->delete();
     }
 }
