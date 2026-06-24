@@ -8,7 +8,7 @@ use App\Http\Controllers\MyCartController;
 use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
-    return redirect()->route('home');
+    return redirect()->route('login');
 });
 
 Auth::routes();
