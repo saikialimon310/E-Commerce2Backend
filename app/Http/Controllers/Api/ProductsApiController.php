@@ -42,7 +42,7 @@ class ProductsApiController extends Controller
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $img) {
-                $path = $this->storeCompressedImage($img, 'products', 100);
+                $path = $this->storeCompressedImage($img, 'products', 30);
 
                 ProductImage::create([
                     'product_id' => $product->id,

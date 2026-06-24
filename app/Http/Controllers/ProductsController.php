@@ -74,7 +74,7 @@ class ProductsController extends Controller
                 //     continue;
                 // }
                 // dd("here");
-                $path = $this->storeCompressedImage($img, 'products', 100);
+                $path = $this->storeCompressedImage($img, 'products', 30);
                 // dd($path);
                 ProductImage::create([
                     'product_id' => $product->id,
@@ -82,7 +82,7 @@ class ProductsController extends Controller
                 ]);
             }
         } elseif ($images instanceof UploadedFile && $images->isValid()) {
-            $path = $this->storeCompressedImage($images, 'products', 100);
+            $path = $this->storeCompressedImage($images, 'products', 30);
             ProductImage::create([
                 'product_id' => $product->id,
                 'image'      => $path
@@ -146,7 +146,7 @@ class ProductsController extends Controller
                     continue;
                 }
 
-                $path = $this->storeCompressedImage($img, 'products', 100);
+                $path = $this->storeCompressedImage($img, 'products', 30);
 
                 ProductImage::create([
                     'product_id' => $product->id,
@@ -154,7 +154,7 @@ class ProductsController extends Controller
                 ]);
             }
         } elseif ($images instanceof UploadedFile && $images->isValid()) {
-            $path = $this->storeCompressedImage($images, 'products', 100);
+            $path = $this->storeCompressedImage($images, 'products', 30);
 
             ProductImage::create([
                 'product_id' => $product->id,
