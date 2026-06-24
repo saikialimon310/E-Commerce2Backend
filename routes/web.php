@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\AvailableProductController;
 use App\Http\Controllers\MyCartController;
 use App\Http\Controllers\UserController;
+ use App\Http\Controllers\OrderController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -47,9 +48,20 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/carts', [MyCartController::class, 'index'])->name('carts.index');
 
-    
+
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::put('/users/status/{id}', [UserController::class, 'updateStatus'])->name('users.status');
     Route::put('/users/role/{id}', [UserController::class, 'updateRole'])->name('users.role');
-    
+
+
+
+    Route::get('/orders', [OrderController::class, 'index'])
+        ->name('orders.index');
+
+    Route::get('/orders/{id}', [OrderController::class, 'show'])
+        ->name('orders.show');
+
+    Route::post('/orders/{id}/status', [OrderController::class, 'updateStatus'])
+        ->name('orders.status');
+
 });

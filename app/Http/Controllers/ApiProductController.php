@@ -19,7 +19,7 @@ class ApiProductController extends Controller
 
     public function getProduct()
     {
-        $products = Product::with('category')->get();
+        $products = Product::with(['category', 'images'])->get();
 
         return response()->json([
             'status' => true,
