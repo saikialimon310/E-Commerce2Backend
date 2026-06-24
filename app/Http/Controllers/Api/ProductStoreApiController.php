@@ -23,7 +23,7 @@ class ProductStoreApiController extends Controller
             'discount'      => 'required|numeric',
             'avail_count'   => 'required|integer',
             'images'        => 'required|array',
-            'images.*'      => 'image|mimes:jpg,jpeg,png|max:5120',
+            'images.*'      => 'image|mimes:jpg,jpeg,png',
         ]);
 
         // ✅ CREATE PRODUCT
@@ -42,7 +42,7 @@ class ProductStoreApiController extends Controller
         // ✅ STORE MULTIPLE IMAGES
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $img) {
-                $path = $img->store('products', 'public');
+                $path = $this->storeCompressedImage($img, 'products', 100);
 
                 ProductImage::create([
                     'product_id' => $product->id,

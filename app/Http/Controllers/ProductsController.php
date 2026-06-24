@@ -36,7 +36,9 @@ class ProductsController extends Controller
             'product_name'  => 'required',
             'price'         => 'required',
             'discount'      => 'required',
-            'avail_count'   => 'required'
+            'avail_count'   => 'required',
+            'images'        => 'nullable|array',
+            'images.*'      => 'image|mimes:jpg,jpeg,png'
         ]);
 
         // not used but required column fix
@@ -50,7 +52,7 @@ class ProductsController extends Controller
         // ✅ MULTIPLE IMAGE UPLOAD
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $img) {
-                $path = $img->store('products', 'public');
+                $path = $this->storeCompressedImage($img, 'products', 100);
 
                 ProductImage::create([
                     'product_id' => $product->id,
@@ -84,7 +86,9 @@ class ProductsController extends Controller
             'product_name' => 'required',
             'price' => 'required',
             'discount' => 'required',
-            'avail_count' => 'required'
+            'avail_count' => 'required',
+            'images' => 'nullable|array',
+            'images.*' => 'image|mimes:jpg,jpeg,png'
         ]);
         $data['user_id'] = auth()->id();
 
@@ -95,7 +99,7 @@ class ProductsController extends Controller
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $img) {
 
-                $path = $img->store('products', 'public');
+                $path = $this->storeCompressedImage($img, 'products', 100);
 
                 ProductImage::create([
                     'product_id' => $product->id,

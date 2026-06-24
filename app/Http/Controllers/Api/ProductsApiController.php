@@ -29,7 +29,9 @@ class ProductsApiController extends Controller
             'product_name'  => 'required',
             'price'         => 'required',
             'discount'      => 'required',
-            'avail_count'   => 'required'
+            'avail_count'   => 'required',
+            'images'        => 'nullable|array',
+            'images.*'      => 'image|mimes:jpg,jpeg,png'
         ]);
 
         $data['image'] = 'NA';
@@ -40,7 +42,7 @@ class ProductsApiController extends Controller
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $img) {
-                $path = $img->store('products', 'public');
+                $path = $this->storeCompressedImage($img, 'products', 100);
 
                 ProductImage::create([
                     'product_id' => $product->id,
@@ -77,7 +79,9 @@ class ProductsApiController extends Controller
             'product_name' => 'required',
             'price' => 'required',
             'discount' => 'required',
-            'avail_count' => 'required'
+            'avail_count' => 'required',
+            'images' => 'nullable|array',
+            'images.*' => 'image|mimes:jpg,jpeg,png|max:100'
         ]);
 
         $product->update($data);
