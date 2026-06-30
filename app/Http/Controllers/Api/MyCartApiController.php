@@ -8,10 +8,12 @@ use App\Models\MyCart;
 
 class MyCartApiController extends Controller
 {
-    // ✅ GET ALL CART ITEMS
-    public function index()
+    // ✅ GET ALL CART ITEMS (for the authenticated user only)
+    public function index(Request $request)
     {
-        $carts = MyCart::with(['user', 'product'])->get();
+        $carts = MyCart::with(['user', 'product'])
+            ->where('user_id', $request->user()->id)
+            ->get();
 
         return response()->json([
             'status' => true,

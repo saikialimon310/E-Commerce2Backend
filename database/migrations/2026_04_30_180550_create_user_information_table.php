@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_information', function (Blueprint $table) {
+        Schema::create('user_informations', function (Blueprint $table) {
             $table->id();
 
             // Foreign key
@@ -37,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_information');
+        Schema::dropIfExists('user_informations');
     }
 };

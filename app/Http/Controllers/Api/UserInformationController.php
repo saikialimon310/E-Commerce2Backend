@@ -9,17 +9,27 @@ use Illuminate\Support\Facades\Validator;
 
 class UserInformationController extends Controller
 {
+    public function __construct()
+    {
+        if (!\Illuminate\Support\Facades\Schema::hasTable('user_information')) {
+            try {
+                \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+            } catch (\Exception $e) {
+                // Fail silently or log if migration fails
+                \Illuminate\Support\Facades\Log::error('Auto-migration failed: ' . $e->getMessage());
+            }
+        }
+    }
+
     // ✅ Store Address
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'address_line' => 'required|string',
-            'city' => 'required|string',
-            'state' => 'required|string',
-            'pincode' => 'required|string',
-            'country' => 'required|string',
-            'latitude' => 'nullable|numeric',
-            'longitude' => 'nullable|numeric',
+            'city'         => 'required|string',
+            'state'        => 'required|string',
+            'pincode'      => 'required|string',
+            'country'      => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -27,19 +37,17 @@ class UserInformationController extends Controller
         }
 
         $address = UserInformation::create([
-            'user_id' => $request->user()->id,
+            'user_id'      => $request->user()->id,
             'address_line' => $request->address_line,
-            'city' => $request->city,
-            'state' => $request->state,
-            'pincode' => $request->pincode,
-            'country' => $request->country,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
+            'city'         => $request->city,
+            'state'        => $request->state,
+            'pincode'      => $request->pincode,
+            'country'      => $request->country,
         ]);
 
         return response()->json([
             'message' => 'Address added successfully',
-            'data' => $address
+            'data'    => $address
         ], 201);
     }
 

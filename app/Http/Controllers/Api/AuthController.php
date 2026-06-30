@@ -17,18 +17,21 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
+            'user_type' => 'nullable|string|in:user,seller',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
+        $userType = $request->user_type ?? 'user';
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-
-            'role' => 'seller',
+            'user_type' => $userType,
+            'role' => ($userType === 'seller') ? 'seller' : 'buyer',
             'status' => 'active',
         ]);
 
