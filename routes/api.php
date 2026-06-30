@@ -31,6 +31,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Product Store
     Route::get('/user-products', [ProductStoreApiController::class, 'userProducts']);
     Route::post('/products', [ProductStoreApiController::class, 'store']);
+    Route::put('/products/{id}', [ProductsApiController::class, 'update']);
 
     // Product Images and Status
     Route::delete('/product-image/{id}', [ProductsApiController::class, 'deleteImage']);

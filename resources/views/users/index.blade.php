@@ -18,6 +18,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Email</th>
+                        <th>Mobile No</th>
                         <th>Role</th>
                         <th>Status</th>
                         <th>History</th>
@@ -33,6 +34,8 @@
                         <td>{{ $user->name }}</td>
 
                         <td>{{ $user->email }}</td>
+
+                        <td>{{ $user->mobile_no }}</td>
 
                         <!-- ROLE -->
                         <td>

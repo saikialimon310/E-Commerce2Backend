@@ -16,6 +16,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
+            'mobile_no' => 'nullable|string|max:15|unique:users',
             'password' => 'required|string|min:6',
             'user_type' => 'nullable|string|in:user,seller',
         ]);
@@ -29,6 +30,7 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'mobile_no' => $request->mobile_no,
             'password' => Hash::make($request->password),
             'user_type' => $userType,
             'role' => ($userType === 'seller') ? 'seller' : 'buyer',
@@ -82,6 +84,7 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'sometimes|string|max:255',
+            'mobile_no' => 'sometimes|string|max:15|unique:users,mobile_no,' . $request->user()->id,
         ]);
 
         if ($validator->fails()) {
@@ -89,7 +92,7 @@ class AuthController extends Controller
         }
 
         $user = $request->user();
-        $user->update($request->only(['name']));
+        $user->update($request->only(['name', 'mobile_no']));
 
         return response()->json([
             'message' => 'Profile updated successfully',
