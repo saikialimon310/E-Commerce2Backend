@@ -13,9 +13,20 @@ class ProductsController extends Controller
     // ✅ SHOW ALL PRODUCTS
     public function index()
     {
-        $products = Product::with(['images', 'category'])
-            ->where('user_id', auth()->id())
-            ->get();
+        if(auth()->user()->role == 'admin') {
+
+            $products = Product::with(['images', 'category'])
+                ->latest()
+                ->get();
+
+        } else {
+
+            $products = Product::with(['images', 'category'])
+                ->where('user_id', auth()->id())
+                ->latest()
+                ->get();
+        }
+
         return view('products.index', compact('products'));
     }
 
@@ -122,8 +133,7 @@ class ProductsController extends Controller
     // ✅ UPDATE STATUS
     public function updateStatus(Request $request, $id)
     {
-        $product = Product::where('user_id', auth()->id())
-                  ->findOrFail($id);
+        $product = Product::findOrFail($id);
 
         $request->validate([
             'status' => 'required|in:approved,reject,hold'

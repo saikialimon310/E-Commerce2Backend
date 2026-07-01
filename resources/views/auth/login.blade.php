@@ -6,7 +6,7 @@
     <div class="left-side">
 
         <div class="logo">
-            <i class="fa-solid fa-bag-shopping"></i>
+            <img src="{{ asset('assets/img/logo.png') }}" class="site-logo">
             <span>সাজ-পাৰ</span>
         </div>
 
@@ -14,11 +14,6 @@
             Shop Smart.<br>
             <span>Live Beautiful.</span>
         </h1>
-
-        <p class="subtitle">
-            Your favorite products,<br>
-            just a click away.
-        </p>
 
         <div class="feature">
             <i class="fa-solid fa-tag"></i>
@@ -55,7 +50,7 @@
         <div class="login-card">
 
             <div class="icon-box">
-                <i class="fa-solid fa-bag-shopping"></i>
+                <img src="{{ asset('assets/img/logo.png') }}" alt="সাজ-পাৰ Logo" class="login-logo">
             </div>
 
             <h2>Welcome Back! 👋</h2>
@@ -123,12 +118,6 @@
 
             </form>
 
-            <div class="signup">
-                Don't have an account?
-                <a href="{{ route('register') }}">
-                    Sign Up →
-                </a>
-            </div>
 
         </div>
 
@@ -145,6 +134,18 @@
 body{
     background:#f7f5ff;
     font-family:'Poppins',sans-serif;
+}
+
+.site-logo{
+    width:45px;
+    height:45px;
+    object-fit:contain;
+}
+
+.login-logo{
+    width:50px;
+    height:50px;
+    object-fit:contain;
 }
 
 .login-page{
@@ -175,7 +176,7 @@ body{
 
 .left-side h1{
     margin-top:60px;
-    font-size:70px;
+    font-size:50px;   
     font-weight:800;
     line-height:1.1;
 }
